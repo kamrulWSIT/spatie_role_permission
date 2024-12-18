@@ -71,6 +71,10 @@
                             <x-admin-link :href="route('admin.menus.index')" :active="request()->routeIs('admin.menus.index')">Test Menu</x-admin-link>
                         @endif
 
+                        @if (Auth::check() && Auth::user()->hasRole('user') && Auth::user()->can('test permission'))
+                            <x-admin-link :href="route('admin.menus.index')" :active="request()->routeIs('admin.menus.index')">Test Permission</x-admin-link>
+                        @endif
+
 
 
 
