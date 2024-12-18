@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -73,5 +74,30 @@ class UserController extends Controller
         $user->delete();
 
         return back()->with('message', 'User Deleted');
+    }
+
+
+
+    // create user
+    public function create()
+    {
+        return view('admin.users.create');
+    }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed', 'min:8'],
+        ]);
+
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return redirect()->route('admin.users.index')->with('message', 'User created successfully');
     }
 }

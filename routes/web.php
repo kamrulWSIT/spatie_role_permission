@@ -50,6 +50,10 @@ Route::middleware(['auth', 'role:admin'])->name('admin.')->prefix('admin')->grou
 
     // test menu
     Route::get('/menus', [MenuController::class, 'index'])->name('menus.index');
+
+    // create user
+    Route::get('/new-user', [UserController::class, 'create'])->name('users.create');
+    Route::post('/new-user', [UserController::class, 'store'])->name('users.store');
 });
 
 
