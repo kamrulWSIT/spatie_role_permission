@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
-use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
 {
@@ -18,17 +17,6 @@ class UserController extends Controller
         $users = User::all();
         return view('admin.users.index', compact('users'));
     }
-
-    public function getUsers()
-    {
-        return DataTables::of(User::query())
-        ->addColumn('actions', function ($user) {
-            return view('admin.users.actions', compact('user'))->render();
-        })
-        ->rawColumns(['actions'])
-        ->make(true);
-    }
-
 
     public function show(User $user)
     {
