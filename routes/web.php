@@ -48,14 +48,21 @@ Route::middleware(['auth', 'role:admin'])->name('admin.')->prefix('admin')->grou
     Route::post('/users/{user}/permissions', [UserController::class, 'givePermission'])->name('users.permissions');
     Route::delete('/users/{user}/permissions/{permission}', [UserController::class, 'revokePermission'])->name('users.permissions.revoke');
 
-    // test menu
-    Route::get('/menus', [MenuController::class, 'index'])->name('menus.index');
-
     // create user
     Route::get('/new-user', [UserController::class, 'create'])->name('users.create');
     Route::post('/new-user', [UserController::class, 'store'])->name('users.store');
+
 });
 
+
+Route::middleware(['auth', 'role:user'])->name('admin.')->prefix('admin')->group(function(){
+    // test menu
+    Route::get('/menus', [MenuController::class, 'index'])->name('menus.index');
+
+
+
+    Route::get('/roles-permissions', [UserController::class, 'getRolePermissions'])->name('users.roles.permissions');
+});
 
 
 Route::middleware('auth')->group(function () {

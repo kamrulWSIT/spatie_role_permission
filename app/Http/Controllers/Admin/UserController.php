@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -99,5 +100,17 @@ class UserController extends Controller
         ]);
 
         return redirect()->route('admin.users.index')->with('message', 'User created successfully');
+    }
+
+
+    public function getRolePermissions()
+    {
+        $user = Auth::user();
+        $roles = $user->getRoleNames();
+
+        // dd($roles);
+        $permissions = $user->getDirectPermissions();
+        // dd($permissions);
+        return view('admin.users.rolePermission', compact('user', 'roles', 'permissions' ));
     }
 }

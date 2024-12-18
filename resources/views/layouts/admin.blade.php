@@ -79,6 +79,10 @@
                         @endif
 
 
+                        @if (Auth::check()  &&  !Auth::user()->hasRole('admin'))
+                            <x-admin-link :href="route('admin.users.roles.permissions')" :active="request()->routeIs('admin.users.roles.permissions')">Role & Permissions</x-admin-link>
+                        @endif
+
 
 
                         <div @click.away="open = false" class="relative" x-data="{ open: false }">
