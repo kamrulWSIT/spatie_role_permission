@@ -67,6 +67,13 @@
                         <x-admin-link :href="route('admin.permissions.index')" :active="request()->routeIs('admin.permissions.index')">Permissions</x-admin-link>
                         <x-admin-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')">Users</x-admin-link>
 
+                        @if (Auth::check() && Auth::user()->hasRole('user'))
+                            <x-admin-link :href="route('admin.menus.index')" :active="request()->routeIs('admin.menus.index')">Test Menu</x-admin-link>
+                        @endif
+
+
+
+
                         <div @click.away="open = false" class="relative" x-data="{ open: false }">
                             <button @click="open = !open" class="flex flex-row items-center w-full px-4 py-2 mt-2 text-sm font-semibold text-left bg-transparent rounded-lg dark-mode:bg-transparent dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:focus:bg-gray-600 dark-mode:hover:bg-gray-600 md:block hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline">
                                 <span>{{ ucfirst(Auth::user()->name) }}</span>
