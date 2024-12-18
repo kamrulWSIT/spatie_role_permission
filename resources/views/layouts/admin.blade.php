@@ -63,9 +63,12 @@
                     </button>
                 </div>
                     <nav :class="{'block': open, 'hidden': !open}" class="flex-grow px-4 pb-4 md:block md:pb-0 md:overflow-y-auto">
-                        <x-admin-link :href="route('admin.roles.index')" :active="request()->routeIs('admin.roles.index')">Roles</x-admin-link>
-                        <x-admin-link :href="route('admin.permissions.index')" :active="request()->routeIs('admin.permissions.index')">Permissions</x-admin-link>
-                        <x-admin-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')">Users</x-admin-link>
+
+                        @if (Auth::check() && Auth::user()->hasRole('admin'))
+                            <x-admin-link :href="route('admin.roles.index')" :active="request()->routeIs('admin.roles.index')">Roles</x-admin-link>
+                            <x-admin-link :href="route('admin.permissions.index')" :active="request()->routeIs('admin.permissions.index')">Permissions</x-admin-link>
+                            <x-admin-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.index')">Users</x-admin-link>
+                        @endif
 
                         @if (Auth::check() && Auth::user()->hasRole('user'))
                             <x-admin-link :href="route('admin.menus.index')" :active="request()->routeIs('admin.menus.index')">Test Menu</x-admin-link>
