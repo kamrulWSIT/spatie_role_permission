@@ -19,15 +19,48 @@ class UserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
+    // public function getUsers()
+    // {
+    //     return DataTables::of(User::query())
+    //     ->addColumn('actions', function ($user) {
+    //         return view('admin.users.actions', compact('user'))->render();
+    //     })
+    //     ->rawColumns(['actions'])
+    //     ->make(true);
+    // }
+
     public function getUsers()
     {
         return DataTables::of(User::query())
-        ->addColumn('actions', function ($user) {
-            return view('admin.users.actions', compact('user'))->render();
-        })
-        ->rawColumns(['actions'])
-        ->make(true);
+            ->addColumn('actions', function ($user) {
+                return view('admin.users.actions', compact('user'))->render();
+            })
+            ->setRowClass(function ($user) {
+                return $user->id % 2 == 0 ? 'text-orange-700' : 'text-red-700';
+            })
+            ->setRowId(function ($user) {
+                return 'user-' . $user->id;
+            })
+            ->setRowAttr([
+                'color' => function($user) {
+                    return $user->name;
+                },
+            ])
+            ->setRowData([
+                'data-id' => 'row-{{$id}}',
+                'data-name' => 'row-{{$name}}',
+            ])
+            ->addColumn('role', function(User $user) {
+                return $user->roles->first()?->name ?? 'No Role';
+            })
+            // ->editColumn('name', function(User $user) {
+            //     return 'Hi ' . $user->name . '!';
+            // })
+            ->rawColumns(['actions'])
+            ->make(true);
     }
+
+
 
 
     public function show(User $user)

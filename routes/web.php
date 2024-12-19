@@ -1,5 +1,6 @@
 <?php
 
+use App\DataTables\UserDataTable;
 use App\Http\Controllers\Admin\IndexController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\PermissionController;
@@ -62,10 +63,12 @@ Route::middleware(['auth', 'role:admin'])->name('admin.')->prefix('admin')->grou
 Route::middleware(['auth', 'role:user'])->name('admin.')->prefix('admin')->group(function(){
     // test menu
     Route::get('/menus', [MenuController::class, 'index'])->name('menus.index');
-
-
-
     Route::get('/roles-permissions', [UserController::class, 'getRolePermissions'])->name('users.roles.permissions');
+});
+
+// test yajra datatable
+Route::get('/datatables', function(UserDataTable $dataTable){
+    return $dataTable->render('testDatatable');
 });
 
 
